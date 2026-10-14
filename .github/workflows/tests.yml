@@ -1,0 +1,31 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # run_qa.py returns a non-zero exit code if any test fails -> workflow fails
+      - name: Run QA pipeline (tests + benchmark + report)
+        run: python scripts/run_qa.py
+
+      - name: Upload reports and logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-output
+          path: |
+            reports/
+            logs/
+            bug_reports/

@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+venv/
+.venv/
+# generated QA output (remove a line if you want to commit sample output)
+logs/*.log
+reports/*.json
+reports/*.xml
+reports/*.html
+bug_reports/*.json
